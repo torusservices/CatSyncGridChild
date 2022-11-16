@@ -1,0 +1,9 @@
+<div *ngIf="products | async as productsList else indicator" class="flex flex-wrap -m-4">
+  <div *ngFor="let product of productsList" class="lg:w-1/4 md:w-1/2 p-4 w-full">
+    <app-product-card [data]="product"></app-product-card>
+  </div>
+  <p *ngIf="!productsList.length" class="p-4 mx-auto">No results</p>
+</div>
+<ng-template #indicator>
+  <mat-spinner class="mx-auto"></mat-spinner>
+</ng-template>

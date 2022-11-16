@@ -1,0 +1,31 @@
+<button mat-button color="primary" [routerLink]="'/routes'">
+    <mat-icon class="text-gray-700" mat-list-icon>arrow_back_ios</mat-icon>
+</button>
+<!-- <h1 class="">
+Location
+
+</h1> -->
+<br><br>
+<h2 mat-line> {{location.name}} </h2>
+<h3 mat-line> {{location.address}} </h3>
+<h3 mat-line> {{location.postcode}} </h3>
+
+<mat-divider></mat-divider>
+<br>
+<div class="flex flex-row">
+    <input  [(ngModel)]="inputComment" (keyup.enter)="pushComment()" class="w-full px-2 py-2 text-gray-700 border rounded" id="comment" name="comment" type="text"
+required="" placeholder="Insert comment here..." aria-label="Comment">
+<button (click)="pushComment()" mat-flat-button color="primary">
+    Send
+  </button>
+</div>
+<mat-selection-list [multiple]="false">
+    <mat-list-option *ngFor="let comment of comments" >
+        <br>
+        <h2>{{comment.user}}</h2>
+        <div mat-line>{{comment.date}}</div>
+        <div mat-line>{{comment.comment}}</div>
+        <br>
+        <mat-divider></mat-divider>
+    </mat-list-option>
+  </mat-selection-list>

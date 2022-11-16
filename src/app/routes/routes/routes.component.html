@@ -1,0 +1,11 @@
+<h1>Today's Route:</h1>
+<h3 *ngIf="">You have no route assigned for today.</h3>
+<mat-selection-list #locations [multiple]="false">
+    <mat-list-option *ngFor="let location of routeLocations" [routerLink]="'/location'" [queryParams]="{postcode: location.postcode}" [value]="location">
+        <mat-icon class="text-gray-700" mat-list-icon>place</mat-icon>
+        <div mat-line>{{location.name}}</div>
+        <div mat-line> {{location.address}} </div>
+        <div mat-line> {{location.postcode}} </div>
+        <!-- <mat-divider></mat-divider> -->
+    </mat-list-option>
+  </mat-selection-list>

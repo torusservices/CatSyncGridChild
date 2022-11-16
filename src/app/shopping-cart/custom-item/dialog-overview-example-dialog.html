@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Custom Item</h1>
+<div mat-dialog-content>
+  <mat-form-field appearance="outline">
+    <mat-label>Item Name</mat-label>
+    <input matInput [(ngModel)]="itemname"/>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Item Price</mat-label>
+    <input matInput [(ngModel)]="itemprice"/>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+
+  <button (click)="addcustom()"  [mat-dialog-close]=""  [style.width.%]="100" mat-flat-button color="primary" >
+    ADD CUSTOM ITEM
+  </button>
+</div>
+<!-- (click)="addcustom()" -->
+<!-- add() -->
+
+<!-- <input matInput [(ngModel)]="data.itemprice" /> -->
+<!-- <input matInput [(ngModel)]="data.itemname" /> -->
+<!-- [mat-dialog-close]="data.itemname" -->

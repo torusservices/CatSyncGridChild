@@ -1,0 +1,207 @@
+<div class="locwindow">
+  <ejs-grid
+    class="location-grid"
+    #locationGrid
+    (actionComplete)="actionComplete($event)"
+    (rowSelected)="onLocRowSelected($event)"
+    autoFit="true"
+    allowResizing="true"
+    [editSettings]="editSettings"
+    [toolbar]="locToolbar"
+    showToolbar="true"
+    allowFiltering="true"
+    [filterSettings]="filterSettings"
+    height="calc(50vh - 30px - 87px - 1px)"
+    [allowSorting]="true"
+  >
+    <e-columns>
+      <e-column field="name" headerText="Name"></e-column>
+      <e-column field="address" headerText="Address"></e-column>
+      <e-column field="postcode" headerText="Postcode"></e-column>
+      <e-column field="client_type" headerText="Client Type"></e-column>
+      <e-column field="priority" headerText="Priority"></e-column>
+      <e-column
+        field="last_visit_readable"
+        type="date"
+        format="dd/MM/yyyy"
+        headerText="Last Visit"
+        [allowEditing]="false"
+      >
+      </e-column>
+      <e-column
+        field="upcoming_visit_readable"
+        type="date"
+        format="dd/MM/yyyy"
+        headerText="Upcoming Visit"
+        [allowEditing]="false"
+      >
+      </e-column>
+    </e-columns>
+  </ejs-grid>
+</div>
+
+<div class="mapswindow">
+  <google-map
+    #myGoogleMap
+    height="100%"
+    width="100%"
+    [zoom]="zoom"
+    [center]="center"
+    [options]="options"
+    (mapClick)="eventHandler($event, 'mapClick')"
+    (mapDblclick)="eventHandler($event, 'mapDblclick')"
+    (mapDrag)="eventHandler($event, 'mapDrag')"
+    (mapDragend)="eventHandler($event, 'mapDragend')"
+    (mapRightclick)="eventHandler($event, 'mapRightclick')"
+    (positionChanged)="eventHandler($event, 'marker_positionChanged')"
+    (zoomChanged)="eventHandler($event, 'zoomChanged')"
+  >
+    <map-polyline  [path]="path"
+    [options]="polylineOptions"></map-polyline>
+    <map-marker
+      #markerElem="mapMarker"
+      *ngFor="let marker of locations"
+      [position]="marker.coords"
+      [label]="marker.label"
+      [title]="marker.title"
+      [options]="marker.options"
+      (mapClick)="openInfo(markerElem, marker)"
+    >
+    </map-marker>
+
+    <map-info-window>
+      <h2>{{ infoContent.name }}</h2>
+      <p>{{ infoContent.address }}</p>
+      <p>{{ infoContent.postcode }}</p>
+      <p>Client Type: {{ infoContent.client_type }}</p>
+      <p>Priority: {{ infoContent.priority }}</p>
+      <p>Last Visit: {{ infoContent.last_visit_readable }}</p>
+      <p>Upcoming Visit: {{ infoContent.upcoming_visit_readable }}</p>
+
+      <button mat-button color="primary" *ngIf="key" (click)="addLocation()">
+        Add To Route
+      </button>
+    </map-info-window>
+  </google-map>
+  <!-- *ngIf="key" -->
+  <div class="e-statustext">
+    Showing locations of Route: <b>{{ routename }}</b>
+
+    <ejs-grid
+      #routelocationGrid
+      id="routelocationGrid"
+      [allowSelection]="false"
+      [allowRowDragAndDrop]="true"
+      (actionComplete)="actionCompleteRouteLoc($event)"
+      [editSettings]="editSettingsRouteLoc"
+      (rowDrop)="rowDrop($event)"
+      [sortSettings]="sortOptions"
+      [allowSorting]="true"
+      (rowSelected)="onRouteLocRowSelected($event)"
+
+    >
+      <e-columns>
+        <e-column
+          field="name"
+          headerText="Name"
+          [allowSorting]="false"
+        ></e-column>
+        <e-column
+          field="address"
+          headerText="Address"
+          [allowSorting]="false"
+        ></e-column>
+        <e-column
+          field="postcode"
+          headerText="Postcode"
+          width="120"
+          [allowSorting]="false"
+        ></e-column>
+        <e-column
+          field="id"
+          headerText="#"
+          width="30"
+          [allowSorting]="false"
+          [visible]="false"
+        ></e-column>
+        <e-column [commands]="commands" width="70"></e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+  <!-- [dataSource]='data' -->
+</div>
+
+<div class="routewindow flex flex-row">
+  <div
+    class="w-1/2 max-h-full overflow-y-scroll outline outline-offset-[-1px] outline-gray-200"
+  >
+    <h3 class="" *ngIf="!locationid">Select location to see comments</h3>
+    <div class="flex flex-row" *ngIf="locationid">
+      <input
+        [(ngModel)]="inputComment"
+        (keyup.enter)="pushComment()"
+        class="w-full px-2 py-2 text-gray-700 border rounded"
+        id="comment"
+        name="comment"
+        type="text"
+        required=""
+        placeholder="Insert comment here..."
+        aria-label="Comment"
+      />
+      <button (click)="pushComment()" mat-stroked-button color="warn">
+        <mat-icon mat-list-icon>send</mat-icon>
+      </button>
+    </div>
+    <mat-selection-list [multiple]="false" class="">
+      <mat-list-option *ngFor="let comment of comments">
+        <br />
+        <h2>{{ comment.user }}</h2>
+        <div mat-line>{{ comment.date }}</div>
+        <div mat-line>{{ comment.comment }}</div>
+        <br />
+        <mat-divider></mat-divider>
+      </mat-list-option>
+      <!-- <mat-list-option>
+      asd
+    </mat-list-option>
+    <mat-list-option>
+      asdasd
+    </mat-list-option> -->
+    </mat-selection-list>
+  </div>
+  <div class="w-1/2">
+    <ejs-grid
+      class="route-grid"
+      #routeGrid
+      (actionComplete)="actionCompleteRoute($event)"
+      (actionFailure)="actionFailure($event)"
+      (rowSelected)="onRowSelected($event)"
+      [editSettings]="editSettings"
+      [toolbar]="routeToolbar"
+      allowFiltering="true"
+      [filterSettings]="filterSettings"
+      allowResizing="true"
+      height="100%"
+      [allowSorting]="true"
+    >
+      <e-columns>
+        <e-column field="name" headerText="Name"></e-column>
+        <e-column
+          field="user"
+          headerText="User"
+          editType="dropdownedit"
+          [edit]="editparams"
+        ></e-column>
+
+        <e-column
+          field="date"
+          headerText="Date"
+          type="date"
+          format="dd/MM/yyyy"
+          editType="datepickeredit"
+        >
+        </e-column>
+      </e-columns>
+    </ejs-grid>
+  </div>
+</div>

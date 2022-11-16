@@ -1,0 +1,7 @@
+<!-- normaItem -->
+<button *ngIf="!data.customItem" (click)="openDialog()"  color="basic">{{data.unitPrice * data.quantity * data.priceMultiplier * user.price_multi | currency :'GBP'}}</button>
+<!-- customItem -->
+<button *ngIf="data.customItem" (click)="openDialog()"  color="basic">{{data.unitPrice * data.quantity * data.priceMultiplier | currency :'GBP'}}</button>
+
+
+

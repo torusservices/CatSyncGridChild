@@ -1,0 +1,26 @@
+<div class="flex flex-col w-full border p-4 pb-6">
+  <h2 class=" title-font font-medium text-gray-800 tracking-widest text-lg mb-3">DEAL SUMMARY</h2>
+  <mat-list>
+    <div *ngFor="let item of cart">
+      <mat-list-item>
+        <span>{{item.quantity}} x
+          {{item.title | uppercase}}</span><span>{{ ((item.customItem) ? item.unitPrice * item.quantity * item.priceMultiplier : item.unitPrice * item.quantity * item.priceMultiplier * user.price_multi) | currency :'GBP'}}</span>
+      </mat-list-item>
+      <mat-divider></mat-divider>
+    </div>
+    <mat-list-item>
+      <span class="font-bold">Total</span>
+      <span>
+        <span class="font-bold">{{getTotalCost() | currency :'GBP'}}</span>
+        <!-- <span *ngIf="free" class="font-bold"><br />{{0 | currency}}</span> -->
+      </span>
+
+    </mat-list-item>
+    <div class="">
+      <!-- <label class="block text-sm" for="name_on_card">Comment</label> -->
+      <input  [(ngModel)]="comment" (blur)="emitComment()" class="w-full px-2 py-2 text-gray-700 border rounded" id="comment" name="comment" type="text"
+        required="" placeholder="Insert comment here..." aria-label="Comment">
+    </div>
+  </mat-list>
+</div>
+

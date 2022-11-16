@@ -1,0 +1,17 @@
+
+<div class="form-container ">
+    <mat-card class=" mat-elevation-z3">
+    <h1>Account Login</h1>
+<form [formGroup]="loginForm" (ngSubmit)="submit()">
+    <mat-form-field>
+        <input matInput placeholder="Email Address" formControlName="email"/>
+        <mat-error *ngIf="email?.errors?.['required']">Email is required</mat-error>
+    </mat-form-field>
+    <mat-form-field class="mb-5">
+        <input matInput placeholder="Password" formControlName="password" type="password"/>
+        <mat-error *ngIf="password?.errors?.['required']">Password is required</mat-error>
+    </mat-form-field>
+    <button class="w-full " mat-raised-button color="primary" type="submit">Login</button>
+</form>
+</mat-card>
+</div>

@@ -1,0 +1,35 @@
+
+<metals-api></metals-api>
+Platinum:{{1/metals.rates['LBXPTAM']}} 
+Palladium:{{1/metals.rates['LBXPDAM']}} 
+Rhodium:{{metals.rates['XRH']}} 
+
+
+<div class="control-section">
+    <ejs-grid color="primary" #productGrid (actionComplete)='actionComplete($event)' allowResizing="true" [allowSorting]="true" [editSettings]='editSettings' [toolbar]='toolbar' [allowFiltering]='true' [filterSettings]="filterOption" >
+        <e-columns>
+            <e-column field='category' headerText='Make' width='120'></e-column>
+            <e-column field='title' headerText='Code' width='150' ></e-column>      
+            <e-column field='image' headerText='Image URL' width='60' format='C2' textAlign='Right'></e-column>
+            <e-column field='ceramic' headerText='Ceramic g' width='60' type="number" defaultValue="0"></e-column>
+            <e-column field='platinum' headerText='Platinum ppm' width='60' type="number" defaultValue="0"></e-column>
+            <e-column field='palladium' headerText='Palaldium ppm' width='60' type="number" defaultValue="0"></e-column>
+            <e-column field='rhodium' headerText='Rhodium ppm' width='60' type="number" defaultValue="0"></e-column>
+            <e-column field='price' headerText='Final Price' width='60' [allowEditing]="false" type="number" ></e-column>
+
+        </e-columns>
+      </ejs-grid>
+      <!-- <h3>User Data</h3> -->
+      <br>
+    <ejs-grid #userGrid [allowSorting]="true" (actionComplete)='actionCompleteUser($event)' height="300" allowResizing="true" [allowSorting]="true" [editSettings]='editSettings' [toolbar]='toolbar' [allowFiltering]='true' [filterSettings]="filterOption">
+        <e-columns >
+            <e-column field='email' headerText='Email' width='120' ></e-column>
+            <!-- <e-column field='uid' headerText='UID' width='150'></e-column> -->
+            <!-- <e-column field='role' headerText='Role' width='150' editType= 'dropdownedit'  [edit]='userParams'></e-column> -->
+            <e-column field='credits' headerText='Credits' width='130'  type="number" textAlign='Right'></e-column>
+            <e-column field='price_multi' headerText='Price Multiplier' width='120' type="number" textAlign='Right'></e-column>
+        </e-columns>
+    </ejs-grid>
+</div>
+
+
